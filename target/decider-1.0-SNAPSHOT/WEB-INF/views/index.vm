@@ -1,0 +1,10 @@
+<!DOCTYPE HTML>
+<head> 
+    <title>Spring for Android</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h1>"#springUrl('/images/level1.png')"</h1>
+    <img src="#springUrl('/images/res_image_1.png')" alt="level" width="50" height="50">
+</body>
+</html>

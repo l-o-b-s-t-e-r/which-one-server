@@ -22,7 +22,7 @@ public class UserService{
     @Autowired
     private Dao dao;
 
-    public User createPlayer(User user) {
+    public User saveUser(User user) {
        return dao.save(user);
     }
 
@@ -40,6 +40,15 @@ public class UserService{
         DetachedCriteria query = DetachedCriteria.forClass(User.class);
         query.add(
                 Restrictions.eq("name", userName)
+        );
+
+        return dao.getBy(query);
+    }
+
+    public User getUserByEmail(String email){
+        DetachedCriteria query = DetachedCriteria.forClass(User.class);
+        query.add(
+                Restrictions.eq("email", email)
         );
 
         return dao.getBy(query);

@@ -65,11 +65,11 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
         return viewResolver;
     }
 
-    /*@Bean
+    @Bean
     public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver resolver=new CommonsMultipartResolver();
         resolver.setDefaultEncoding("utf-8");
         resolver.setMaxUploadSize(5242880);
         return resolver;
-    }*/
+    }
 }

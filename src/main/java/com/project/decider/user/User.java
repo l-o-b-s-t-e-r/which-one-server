@@ -32,6 +32,9 @@ public class User implements Serializable{
     @Column
     private String background;
 
+    @Column
+    private String email;
+
     public User(){
 
     }
@@ -68,6 +71,14 @@ public class User implements Serializable{
         this.background = background;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public Long getId() {
         return id;
     }
@@ -84,6 +95,7 @@ public class User implements Serializable{
                 ", password='" + password + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", background='" + background + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

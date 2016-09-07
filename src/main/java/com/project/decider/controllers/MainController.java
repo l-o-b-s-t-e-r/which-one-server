@@ -11,6 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +40,7 @@ public class MainController {
     @Autowired
     private HttpServletRequest request;
 
+    private final String SERVER_EMAIL = "vla.loboda@gmail.com";
     private static final String FILE_PREFIX = "IMG_";
     private static final String FILE_SUFFIX = ".jpg";
 
@@ -51,15 +55,74 @@ public class MainController {
         return "index";
     }
 
-    @RequestMapping(value = "/check_user", method = RequestMethod.GET)
+    @RequestMapping(value = "/sign_up", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<User> checkUser(@RequestParam String name, @RequestParam String password) {
+    public ResponseEntity<Void> signUp(@RequestParam String name, @RequestParam String password, @RequestParam String email){
+        User user = userService.getUserByName(name);
+        if (user != null) {
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        } else {
+            user = userService.getUserByEmail(email);
+            if (user != null){
+                return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+            } else {
+                user = new User();
+                user.setName(name);
+                user.setPassword(password);
+                user.setEmail(email);
+                userService.saveUser(user);
+
+                return new ResponseEntity<Void>(HttpStatus.OK);
+            }
+        }
+    }
+
+    @RequestMapping(value = "/sign_in", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<Void> signIn(@RequestParam String name, @RequestParam String password){
         User user = userService.getUser(name, password);
         if (user != null) {
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @RequestMapping(value = "/check_name", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<User> checkUser(@RequestParam String name) {
+        User user = userService.getUserByName(name);
+        if (user == null) {
             return new ResponseEntity<User>(user, HttpStatus.OK);
         } else {
             return new ResponseEntity<User>(user, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @RequestMapping(value = "/check_email", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<User> checkEmail(@RequestParam String email) {
+        User user = userService.getUserByEmail(email);
+        if (user == null) {
+            return new ResponseEntity<User>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<User>(user, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @RequestMapping(value = "/remind_info", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<User> remindInfo(@RequestParam String email) {
+        System.out.println("GET EMAIL");
+        User user = userService.getUserByEmail(email);
+        if (user != null) {
+            if (sendEmail(email, user)) {
+                System.out.println("EMAIL SENT");
+                return new ResponseEntity<User>(user, HttpStatus.OK);
+            }
+        }
+        System.out.println("EMAIL NOT SENT");
+        return new ResponseEntity<User>(user, HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value = "/get_user_info", method = RequestMethod.GET)
@@ -373,6 +436,45 @@ public class MainController {
         }
 
         return lastRecordsDto;
+    }
+
+    private boolean sendEmail(String toEmail, User user){
+        Properties properties = new Properties();
+        properties.put("mail.smtp.user", SERVER_EMAIL);
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+        properties.put("mail.smtp.starttls.enable","true");
+        properties.put("mail.smtp.debug", "true");
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.socketFactory.port", "587");
+        properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        properties.put("mail.smtp.socketFactory.fallback", "false");
+
+        Session session = Session.getInstance(properties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(SERVER_EMAIL, "09v67l85a29d01");
+            }
+        });
+
+        try{
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(SERVER_EMAIL));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+            message.setSubject("WhichOne App");
+            message.setText("Name: " + user.getName() + '\n' + "Password: " + user.getPassword());
+
+            Transport transport = session.getTransport("smtps");
+            transport.connect("smtp.gmail.com", 465, "username", "password");
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
+
+        }catch (MessagingException mex) {
+            mex.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 }
 

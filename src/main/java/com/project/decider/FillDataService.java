@@ -1,6 +1,6 @@
 package com.project.decider;
 
-import com.project.decider.dto.FullRecordDto;
+import com.project.decider.controllers.MainController;
 import com.project.decider.record.*;
 import com.project.decider.user.User;
 import com.project.decider.user.UserService;
@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by macos on 02.05.16.
@@ -50,25 +48,26 @@ public class FillDataService {
         userEntity.setPassword(userPassword);
         userEntity.setBackground("images/background.jpg");
         userEntity.setAvatar("images/ic_launcher.png");
-        userService.createPlayer(userEntity);
+        userService.saveUser(userEntity);
 
         userEntity.setName(userTVBB);
         userEntity.setPassword(userTVBBPassword);
         userEntity.setBackground(album+"breaking_bad_background.jpg");
         userEntity.setAvatar(album+"breaking_bad_avatar.jpg");
-        userService.createPlayer(userEntity);
+        userService.saveUser(userEntity);
 
         userEntity.setName(userTVGT);
         userEntity.setPassword(userTVFTPassword);
         userEntity.setBackground(album+"game_of_thrones_background.jpg");
         userEntity.setAvatar(album+"game_of_thrones_avatar.jpg");
-        userService.createPlayer(userEntity);
+        userService.saveUser(userEntity);
 
         userEntity.setName(userSF);
         userEntity.setPassword(userSFPassword);
+        userEntity.setEmail("vladislav-loboda@mail.ru");
         userEntity.setBackground(album+"sanfran_background.jpg");
         userEntity.setAvatar(album+"sanfran_avatar.jpg");
-        userService.createPlayer(userEntity);
+        userService.saveUser(userEntity);
 
         Record record;
         Quiz quiz;
@@ -619,9 +618,5 @@ public class FillDataService {
         quiz.setName("2");
         quiz.setRecordId(recordId);
         quizService.saveQuiz(quiz);
-
-        userEntity = userService.getUserByName(userName);
-        System.out.println("USER ID: "+userEntity.getId());
-
     }
 }

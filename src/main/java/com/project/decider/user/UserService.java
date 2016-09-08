@@ -45,6 +45,15 @@ public class UserService{
         return dao.getBy(query);
     }
 
+    public User getUserByVerificationCode(Integer verificationCode){
+        DetachedCriteria query = DetachedCriteria.forClass(User.class);
+        query.add(
+                Restrictions.eq("verificationCode", verificationCode)
+        );
+
+        return dao.getBy(query);
+    }
+
     public User getUserByEmail(String email){
         DetachedCriteria query = DetachedCriteria.forClass(User.class);
         query.add(

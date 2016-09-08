@@ -10,13 +10,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.annotation.PostConstruct;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -40,9 +44,11 @@ public class MainController {
     @Autowired
     private HttpServletRequest request;
 
+    private Session session;
     private final String SERVER_EMAIL = "vla.loboda@gmail.com";
-    private static final String FILE_PREFIX = "IMG_";
-    private static final String FILE_SUFFIX = ".jpg";
+    private final String VERIFY_EMAIL = "/verify_email";
+    private final String FILE_PREFIX = "IMG_";
+    private final String FILE_SUFFIX = ".jpg";
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showWelcomePage() {
@@ -70,7 +76,10 @@ public class MainController {
                 user.setName(name);
                 user.setPassword(password);
                 user.setEmail(email);
+                user.setVerificationCode(user.hashCode());
                 userService.saveUser(user);
+
+                sendVerifyingEmail(email, user);
 
                 return new ResponseEntity<Void>(HttpStatus.OK);
             }
@@ -81,10 +90,23 @@ public class MainController {
     @ResponseBody
     public ResponseEntity<Void> signIn(@RequestParam String name, @RequestParam String password){
         User user = userService.getUser(name, password);
-        if (user != null) {
+        if (user != null && user.isVerified()) {
             return new ResponseEntity<Void>(HttpStatus.OK);
         } else {
             return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @RequestMapping(value = VERIFY_EMAIL+"/{verificationCode}", method = RequestMethod.GET)
+    @ResponseBody
+    public String verifyEmail(@PathVariable(value="verificationCode") Integer verificationCode){
+        User user = userService.getUserByVerificationCode(verificationCode);
+        if (user != null) {
+            user.setVerified(true);
+            userService.saveUser(user);
+            return "verify_success";
+        } else {
+            return "verify_error";
         }
     }
 
@@ -116,7 +138,7 @@ public class MainController {
         System.out.println("GET EMAIL");
         User user = userService.getUserByEmail(email);
         if (user != null) {
-            if (sendEmail(email, user)) {
+            if (sendRemindEmail(email, user)) {
                 System.out.println("EMAIL SENT");
                 return new ResponseEntity<User>(user, HttpStatus.OK);
             }
@@ -438,7 +460,8 @@ public class MainController {
         return lastRecordsDto;
     }
 
-    private boolean sendEmail(String toEmail, User user){
+    @PostConstruct
+    private void initEmail(){
         Properties properties = new Properties();
         properties.put("mail.smtp.user", SERVER_EMAIL);
         properties.put("mail.smtp.host", "smtp.gmail.com");
@@ -450,19 +473,52 @@ public class MainController {
         properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         properties.put("mail.smtp.socketFactory.fallback", "false");
 
-        Session session = Session.getInstance(properties, new Authenticator() {
+        session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(SERVER_EMAIL, "09v67l85a29d01");
             }
         });
+    }
 
+    private boolean sendRemindEmail(String toEmail, User user){
         try{
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(SERVER_EMAIL));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
             message.setSubject("WhichOne App");
             message.setText("Name: " + user.getName() + '\n' + "Password: " + user.getPassword());
+
+            Transport transport = session.getTransport("smtps");
+            transport.connect("smtp.gmail.com", 465, "username", "password");
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
+
+        }catch (MessagingException mex) {
+            mex.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    private String buildUri(){
+        try {
+            URI uri = new URI(request.getScheme(), null, request.getLocalName(), request.getLocalPort(), request.getContextPath(), null, null);
+            return uri.toString();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private boolean sendVerifyingEmail(String toEmail, User user){
+        try{
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(SERVER_EMAIL));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+            message.setSubject("WhichOne App");
+            message.setText("Please click the link to confirm your email address: " + buildUri() + VERIFY_EMAIL + "/"+user.getVerificationCode());
 
             Transport transport = session.getTransport("smtps");
             transport.connect("smtp.gmail.com", 465, "username", "password");

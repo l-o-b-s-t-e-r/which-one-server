@@ -44,6 +44,7 @@ public class FillDataService {
     @PostConstruct
     public void fillDataBase(){
         User userEntity = new User();
+        userEntity.setVerified(true);
         userEntity.setName(userName);
         userEntity.setPassword(userPassword);
         userEntity.setBackground("images/background.jpg");
@@ -64,7 +65,6 @@ public class FillDataService {
 
         userEntity.setName(userSF);
         userEntity.setPassword(userSFPassword);
-        userEntity.setEmail("vladislav-loboda@mail.ru");
         userEntity.setBackground(album+"sanfran_background.jpg");
         userEntity.setAvatar(album+"sanfran_avatar.jpg");
         userService.saveUser(userEntity);

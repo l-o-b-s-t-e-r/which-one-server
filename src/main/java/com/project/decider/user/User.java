@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.io.Serializable;
 
 /**
@@ -34,6 +35,12 @@ public class User implements Serializable{
 
     @Column
     private String email;
+
+    @Column
+    private Boolean verified = false;
+
+    @Column
+    private Integer verificationCode;
 
     public User(){
 
@@ -85,6 +92,45 @@ public class User implements Serializable{
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
+    }
+
+    public Integer getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(Integer verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (id != null ? !id.equals(user.id) : user.id != null) return false;
+        if (name != null ? !name.equals(user.name) : user.name != null) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
+        return email != null ? email.equals(user.email) : user.email == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        return result;
     }
 
     @Override

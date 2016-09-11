@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.annotation.PostConstruct;
 import javax.mail.*;
@@ -32,6 +31,10 @@ import java.util.*;
 @RequestMapping("/")
 public class MainController {
 
+    private final String SERVER_EMAIL = "vla.loboda@gmail.com";
+    private final String VERIFY_EMAIL = "/verify_email";
+    private final String FILE_PREFIX = "IMG_";
+    private final String FILE_SUFFIX = ".jpg";
     @Autowired
     UserService userService;
     @Autowired
@@ -40,15 +43,9 @@ public class MainController {
     QuizService quizService;
     @Autowired
     VoteService voteService;
-
     @Autowired
     private HttpServletRequest request;
-
     private Session session;
-    private final String SERVER_EMAIL = "vla.loboda@gmail.com";
-    private final String VERIFY_EMAIL = "/verify_email";
-    private final String FILE_PREFIX = "IMG_";
-    private final String FILE_SUFFIX = ".jpg";
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showWelcomePage() {
@@ -274,7 +271,8 @@ public class MainController {
         }
 
         String userName = recordList.get(0).getUserName();
-        FullRecordDto record = new FullRecordDto(userName, "", recordId, recordList, fullQuiz);
+        User user = userService.getUserByName(userName);
+        FullRecordDto record = new FullRecordDto(userName, user.getAvatar(), recordId, recordList, fullQuiz);
 
         return new ResponseEntity<FullRecordDto>(record, HttpStatus.OK);
     }

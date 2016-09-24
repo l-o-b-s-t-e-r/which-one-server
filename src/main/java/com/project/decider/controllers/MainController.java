@@ -31,6 +31,7 @@ import java.util.*;
 @RequestMapping("/")
 public class MainController {
 
+    public static final String IMAGE_FOLDER = "/images";
     private final String SERVER_EMAIL = "vla.loboda@gmail.com";
     private final String VERIFY_EMAIL = "/verify_email";
     private final String FILE_PREFIX = "IMG_";
@@ -312,7 +313,7 @@ public class MainController {
 
                     Record newRecord = new Record();
                     newRecord.setUserName(name);
-                    newRecord.setImage(uploadsDir+"/"+newFile.getName());
+                    newRecord.setImage(newFile.getName());
                     newRecord.setRecordId(newRecordId);
                     recordService.saveRecord(newRecord);
                 } catch (IOException e) {
@@ -349,7 +350,7 @@ public class MainController {
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
                 File newFile = File.createTempFile(FILE_PREFIX+timeStamp+"_", FILE_SUFFIX, dir);
                 file.transferTo(newFile);
-                user = userService.setBackground(name, uploadsDir+"/"+newFile.getName());
+                user = userService.setBackground(name, newFile.getName());
                 return new ResponseEntity<User>(user, HttpStatus.OK);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -374,7 +375,7 @@ public class MainController {
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
                 File newFile = File.createTempFile(FILE_PREFIX+timeStamp+"_", FILE_SUFFIX, dir);
                 file.transferTo(newFile);
-                user = userService.setAvatar(name, uploadsDir+"/"+newFile.getName());
+                user = userService.setAvatar(name, newFile.getName());
                 return new ResponseEntity<User>(user, HttpStatus.OK);
             } catch (IOException e) {
                 e.printStackTrace();

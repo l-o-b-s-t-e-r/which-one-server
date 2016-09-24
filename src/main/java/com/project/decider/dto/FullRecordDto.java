@@ -4,23 +4,25 @@ import com.project.decider.record.Quiz;
 import com.project.decider.record.Record;
 import com.project.decider.record.Vote;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by macos on 20.06.16.
  */
 public class FullRecordDto{
 
-    private String title;
+    final private List<String> users = Arrays.asList("user1", "user2", "user3");
+    private String username;
     private String avatar;
     private Long recordId;
     private List<ImageDto> images;
     private List<OptionDto> options;
 
-    final private List<String> users = Arrays.asList("user1", "user2", "user3");
-
     public FullRecordDto(String title, String avatar, Long recordId, List<Record> record, Map<Quiz, List<Vote>> quiz) {
-        this.title = title;
+        this.username = title;
         this.avatar = avatar;
         this.recordId = recordId;
 
@@ -52,12 +54,12 @@ public class FullRecordDto{
         this.images = images;
     }
 
-    public String getTitle() {
-        return title;
+    public String getUsername() {
+        return username;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Long getRecordId() {

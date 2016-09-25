@@ -176,7 +176,8 @@ public class MainController {
             quiz.put(q, voteService.getAllRecordsByRecordIdOption(q.getRecordId(), q.getName()));
         }
 
-        lastRecordsDto.add(new FullRecordDto(user.getName(), user.getAvatar(), recordId, recordImages, quiz));
+        String title = recordImages.get(0).getTitle();
+        lastRecordsDto.add(new FullRecordDto(user.getName(), title, user.getAvatar(), recordId, recordImages, quiz));
         for (int i=1; i<9; i++){
             quiz.clear();
             System.out.println(recordId);
@@ -192,7 +193,8 @@ public class MainController {
                 quiz.put(q, voteService.getAllRecordsByRecordIdOption(q.getRecordId(), q.getName()));
             }
 
-            lastRecordsDto.add(new FullRecordDto(user.getName(), user.getAvatar(), recordId, recordImages, quiz));
+            title = recordImages.get(0).getTitle();
+            lastRecordsDto.add(new FullRecordDto(user.getName(), title, user.getAvatar(), recordId, recordImages, quiz));
         }
 
         return new ResponseEntity<List<FullRecordDto>>(lastRecordsDto, HttpStatus.OK);
@@ -203,6 +205,7 @@ public class MainController {
     public ResponseEntity<List<FullRecordDto>> getNextRecordsByName(@RequestParam String name, @RequestParam Long recordId) {
         User user = userService.getUserByName(name);
 
+        String title;
         List<Record> recordImages;
         List<Quiz> quizOptions;
         Map<Quiz, List<Vote>> quiz = new LinkedHashMap<>();
@@ -222,7 +225,8 @@ public class MainController {
                 quiz.put(q, voteService.getAllRecordsByRecordIdOption(q.getRecordId(), q.getName()));
             }
 
-            lastRecordsDto.add(new FullRecordDto(user.getName(), user.getAvatar(), recordId, recordImages, quiz));
+            title = recordImages.get(0).getTitle();
+            lastRecordsDto.add(new FullRecordDto(user.getName(), title, user.getAvatar(), recordId, recordImages, quiz));
         }
 
         return new ResponseEntity<List<FullRecordDto>>(lastRecordsDto, HttpStatus.OK);
@@ -272,8 +276,9 @@ public class MainController {
         }
 
         String userName = recordList.get(0).getUserName();
+        String title = recordList.get(0).getTitle();
         User user = userService.getUserByName(userName);
-        FullRecordDto record = new FullRecordDto(userName, user.getAvatar(), recordId, recordList, fullQuiz);
+        FullRecordDto record = new FullRecordDto(userName, title, user.getAvatar(), recordId, recordList, fullQuiz);
 
         return new ResponseEntity<FullRecordDto>(record, HttpStatus.OK);
     }
@@ -292,7 +297,10 @@ public class MainController {
 
     @RequestMapping(value = "/add_record", method = RequestMethod.POST)
     @ResponseBody
-    public void addRecord(@RequestParam("files") List<MultipartFile> files, @RequestParam("options") List<String> options, @RequestParam("name") String name) {
+    public void addRecord(@RequestParam("files") List<MultipartFile> files,
+                          @RequestParam("options") List<String> options,
+                          @RequestParam("name") String name,
+                          @RequestParam("title") String title) {
         System.out.println("SUCCESS");
 
         Long newRecordId = recordService.getLastRecordId()+1L;
@@ -313,6 +321,7 @@ public class MainController {
 
                     Record newRecord = new Record();
                     newRecord.setUserName(name);
+                    newRecord.setTitle(title);
                     newRecord.setImage(newFile.getName());
                     newRecord.setRecordId(newRecordId);
                     recordService.saveRecord(newRecord);
@@ -418,6 +427,7 @@ public class MainController {
 
         List<FullRecordDto> lastRecordsDto = new ArrayList<>();
         List<Vote> votes;
+        String title;
 
         Long currentRecordId = recordId;
         boolean finishFlag = false;
@@ -448,7 +458,8 @@ public class MainController {
                 }
             }
 
-            lastRecordsDto.add(new FullRecordDto(user.getName(), user.getAvatar(), currentRecordId, recordsWithSameId, quizzesWithSameId));
+            title = recordsWithSameId.get(0).getTitle();
+            lastRecordsDto.add(new FullRecordDto(user.getName(), title, user.getAvatar(), currentRecordId, recordsWithSameId, quizzesWithSameId));
             currentRecordId--;
 
             if (lastRecords.isEmpty() && lastQuizzes.isEmpty()) {

@@ -19,6 +19,9 @@ public class Record implements Serializable{
     @Column
     private String userName;
 
+    @Column
+    private String title;
+
     @Id
     @Column
     private String image;
@@ -49,5 +52,13 @@ public class Record implements Serializable{
 
     public void setRecordId(Long recordId) {
         this.recordId = recordId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

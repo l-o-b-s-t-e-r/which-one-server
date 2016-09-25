@@ -69,21 +69,25 @@ public class FillDataService {
         Record record;
         Quiz quiz;
         Long recordId = 1L;
+        String title = "Which one?";
 
         record = new Record();
         record.setUserName(userName);
+        record.setTitle(title);
         record.setImage("res_image_1.png");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
         record = new Record();
         record.setUserName(userName);
+        record.setTitle(title);
         record.setImage("res_image_2.png");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
         record = new Record();
         record.setUserName(userName);
+        record.setTitle(title);
         record.setImage("res_image_3.png");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
@@ -91,6 +95,7 @@ public class FillDataService {
         record = new Record();
         record.setUserName(userName);
         record.setImage("res_image_4.png");
+        record.setTitle(title);
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
@@ -115,26 +120,31 @@ public class FillDataService {
         //-------------------------
 
         recordId++;
+        title = "Who is cooler?";
         record = new Record();
         record.setUserName(userName);
+        record.setTitle(title);
         record.setImage("res_image_5.png");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
         record = new Record();
         record.setUserName(userName);
+        record.setTitle(title);
         record.setImage("res_image_6.png");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
         quiz = new Quiz();
         quiz.setUserName(userName);
+        record.setTitle(title);
         quiz.setName("first");
         quiz.setRecordId(recordId);
         quizService.saveQuiz(quiz);
 
         quiz = new Quiz();
         quiz.setUserName(userName);
+        record.setTitle(title);
         quiz.setName("second");
         quiz.setRecordId(recordId);
         quizService.saveQuiz(quiz);
@@ -142,20 +152,24 @@ public class FillDataService {
         //-------------------------
 
         recordId++;
+        title = "Just choose!";
         record = new Record();
         record.setUserName(userName);
+        record.setTitle(title);
         record.setImage("res_image_7.png");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
         record = new Record();
         record.setUserName(userName);
+        record.setTitle(title);
         record.setImage("res_image_8.png");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
         record = new Record();
         record.setUserName(userName);
+        record.setTitle(title);
         record.setImage("res_image_9.png");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
@@ -175,20 +189,24 @@ public class FillDataService {
         //-------------------------
 
         recordId++;
+        title = "Which one?";
         record = new Record();
         record.setUserName(userName);
+        record.setTitle(title);
         record.setImage("res_image_10.png");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
         record = new Record();
         record.setUserName(userName);
+        record.setTitle(title);
         record.setImage("res_image_11.png");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
         record = new Record();
         record.setUserName(userName);
+        record.setTitle(title);
         record.setImage("res_image_12.png");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
@@ -216,12 +234,14 @@ public class FillDataService {
         recordId++;
         record = new Record();
         record.setUserName(userTVBB);
+        record.setTitle(title);
         record.setImage("breaking_bad_1.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
         record = new Record();
         record.setUserName(userTVBB);
+        record.setTitle(title);
         record.setImage("breaking_bad_2.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
@@ -243,18 +263,21 @@ public class FillDataService {
         recordId++;
         record = new Record();
         record.setUserName(userTVBB);
+        record.setTitle(title);
         record.setImage("breaking_bad_3.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
         record = new Record();
         record.setUserName(userTVBB);
+        record.setTitle(title);
         record.setImage("breaking_bad_4.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
         record = new Record();
         record.setUserName(userTVBB);
+        record.setTitle(title);
         record.setImage("breaking_bad_5.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
@@ -282,6 +305,7 @@ public class FillDataService {
         recordId++;
         record = new Record();
         record.setUserName(userTVBB);
+        record.setTitle("Ouuu!");
         record.setImage("breaking_bad_6.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
@@ -303,12 +327,14 @@ public class FillDataService {
         recordId++;
         record = new Record();
         record.setUserName(userTVBB);
+        record.setTitle("Your choice");
         record.setImage("breaking_bad_7.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
         record = new Record();
         record.setUserName(userTVBB);
+        record.setTitle("Your choice");
         record.setImage("breaking_bad_8.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
@@ -340,26 +366,31 @@ public class FillDataService {
         //-------------------------
 
         recordId++;
+        title = "Who is strongest?";
         record = new Record();
         record.setUserName(userTVGT);
+        record.setTitle(title);
         record.setImage("game_of_thrones_1.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
         record = new Record();
         record.setUserName(userTVGT);
+        record.setTitle(title);
         record.setImage("game_of_thrones_2.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
         record = new Record();
         record.setUserName(userTVGT);
+        record.setTitle(title);
         record.setImage("game_of_thrones_3.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
         record = new Record();
         record.setUserName(userTVGT);
+        record.setTitle(title);
         record.setImage("game_of_thrones_4.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
@@ -391,20 +422,24 @@ public class FillDataService {
         //-------------------------
 
         recordId++;
+        title = "Awesome guys?";
         record = new Record();
         record.setUserName(userTVGT);
+        record.setTitle(title);
         record.setImage("game_of_thrones_5.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
         record = new Record();
         record.setUserName(userTVGT);
+        record.setTitle(title);
         record.setImage("game_of_thrones_6.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
         record = new Record();
         record.setUserName(userTVGT);
+        record.setTitle(title);
         record.setImage("game_of_thrones_7.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
@@ -430,20 +465,24 @@ public class FillDataService {
         //-------------------------
 
         recordId++;
+        title = "Who is?";
         record = new Record();
         record.setUserName(userTVGT);
+        record.setTitle(title);
         record.setImage("game_of_thrones_8.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
         record = new Record();
         record.setUserName(userTVGT);
+        record.setTitle(title);
         record.setImage("game_of_thrones_9.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
         record = new Record();
         record.setUserName(userTVGT);
+        record.setTitle(title);
         record.setImage("game_of_thrones_10.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
@@ -469,14 +508,17 @@ public class FillDataService {
         //----------------------------
 
         recordId++;
+        title = "Which photo is better?";
         record = new Record();
         record.setUserName(userSF);
+        record.setTitle(title);
         record.setImage("sanfran_1.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
         record = new Record();
         record.setUserName(userSF);
+        record.setTitle(title);
         record.setImage("sanfran_2.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
@@ -498,12 +540,14 @@ public class FillDataService {
         recordId++;
         record = new Record();
         record.setUserName(userSF);
+        record.setTitle(title);
         record.setImage("sanfran_3.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
         record = new Record();
         record.setUserName(userSF);
+        record.setTitle(title);
         record.setImage("sanfran_4.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
@@ -523,8 +567,10 @@ public class FillDataService {
         //-------------------------
 
         recordId++;
+        title = "Which one?";
         record = new Record();
         record.setUserName(userSF);
+        record.setTitle(title);
         record.setImage("sanfran_5.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
@@ -532,6 +578,7 @@ public class FillDataService {
         record = new Record();
         record.setUserName(userSF);
         record.setImage("sanfran_6.jpg");
+        record.setTitle(title);
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
@@ -550,8 +597,10 @@ public class FillDataService {
         //-------------------------
 
         recordId++;
+        title = "Nice?";
         record = new Record();
         record.setUserName(userSF);
+        record.setTitle(title);
         record.setImage("sanfran_7.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
@@ -571,8 +620,10 @@ public class FillDataService {
         //-------------------------
 
         recordId++;
+        title = "Good?";
         record = new Record();
         record.setUserName(userSF);
+        record.setTitle(title);
         record.setImage("sanfran_8.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
@@ -592,14 +643,17 @@ public class FillDataService {
         //-------------------------
 
         recordId++;
+        title = "Tram or Bridge?";
         record = new Record();
         record.setUserName(userSF);
+        record.setTitle(title);
         record.setImage("sanfran_9.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);
 
         record = new Record();
         record.setUserName(userSF);
+        record.setTitle(title);
         record.setImage("sanfran_10.jpg");
         record.setRecordId(recordId);
         recordService.saveRecord(record);

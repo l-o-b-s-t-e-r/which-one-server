@@ -148,6 +148,7 @@ public class MainController {
     @RequestMapping(value = "/get_user_info", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<User> getUserInfo(@RequestParam String name) {
+        System.out.println("GET USER INFO");
         User user = userService.getUserByName(name);
         if (user != null) {
             return new ResponseEntity<User>(user, HttpStatus.OK);
@@ -176,8 +177,8 @@ public class MainController {
             quiz.put(q, voteService.getAllRecordsByRecordIdOption(q.getRecordId(), q.getName()));
         }
 
-        String title = recordImages.get(0).getTitle();
-        lastRecordsDto.add(new FullRecordDto(user.getName(), title, user.getAvatar(), recordId, recordImages, quiz));
+        String description = recordImages.get(0).getDescription();
+        lastRecordsDto.add(new FullRecordDto(user.getName(), description, user.getAvatar(), recordId, recordImages, quiz));
         for (int i=1; i<9; i++){
             quiz.clear();
             System.out.println(recordId);
@@ -193,8 +194,8 @@ public class MainController {
                 quiz.put(q, voteService.getAllRecordsByRecordIdOption(q.getRecordId(), q.getName()));
             }
 
-            title = recordImages.get(0).getTitle();
-            lastRecordsDto.add(new FullRecordDto(user.getName(), title, user.getAvatar(), recordId, recordImages, quiz));
+            description = recordImages.get(0).getDescription();
+            lastRecordsDto.add(new FullRecordDto(user.getName(), description, user.getAvatar(), recordId, recordImages, quiz));
         }
 
         return new ResponseEntity<List<FullRecordDto>>(lastRecordsDto, HttpStatus.OK);
@@ -205,7 +206,7 @@ public class MainController {
     public ResponseEntity<List<FullRecordDto>> getNextRecordsByName(@RequestParam String name, @RequestParam Long recordId) {
         User user = userService.getUserByName(name);
 
-        String title;
+        String description;
         List<Record> recordImages;
         List<Quiz> quizOptions;
         Map<Quiz, List<Vote>> quiz = new LinkedHashMap<>();
@@ -225,8 +226,8 @@ public class MainController {
                 quiz.put(q, voteService.getAllRecordsByRecordIdOption(q.getRecordId(), q.getName()));
             }
 
-            title = recordImages.get(0).getTitle();
-            lastRecordsDto.add(new FullRecordDto(user.getName(), title, user.getAvatar(), recordId, recordImages, quiz));
+            description = recordImages.get(0).getDescription();
+            lastRecordsDto.add(new FullRecordDto(user.getName(), description, user.getAvatar(), recordId, recordImages, quiz));
         }
 
         return new ResponseEntity<List<FullRecordDto>>(lastRecordsDto, HttpStatus.OK);
@@ -252,9 +253,12 @@ public class MainController {
         List<Record> lastRecords = recordService.getRecordsRange(lastRecordId, lastRecordId - 5);
         List<Quiz> lastQuizzes = quizService.getQuizzesRange(lastRecordId, lastRecordId - 5);
 
-        List<FullRecordDto> lastRecordsDto = buildFullRecordDto(lastRecords, lastQuizzes, lastRecordId, null);
-
-        return new ResponseEntity<List<FullRecordDto>>(lastRecordsDto, HttpStatus.OK);
+        if (!lastRecords.isEmpty()) {
+            List<FullRecordDto> lastRecordsDto = buildFullRecordDto(lastRecords, lastQuizzes, lastRecordId, null);
+            return new ResponseEntity<List<FullRecordDto>>(lastRecordsDto, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<List<FullRecordDto>>(new ArrayList<FullRecordDto>(), HttpStatus.OK);
+        }
     }
 
     @RequestMapping(value = "/get_record_images", method = RequestMethod.GET)
@@ -276,9 +280,9 @@ public class MainController {
         }
 
         String userName = recordList.get(0).getUserName();
-        String title = recordList.get(0).getTitle();
+        String description = recordList.get(0).getDescription();
         User user = userService.getUserByName(userName);
-        FullRecordDto record = new FullRecordDto(userName, title, user.getAvatar(), recordId, recordList, fullQuiz);
+        FullRecordDto record = new FullRecordDto(userName, description, user.getAvatar(), recordId, recordList, fullQuiz);
 
         return new ResponseEntity<FullRecordDto>(record, HttpStatus.OK);
     }
@@ -300,7 +304,7 @@ public class MainController {
     public void addRecord(@RequestParam("files") List<MultipartFile> files,
                           @RequestParam("options") List<String> options,
                           @RequestParam("name") String name,
-                          @RequestParam("title") String title) {
+                          @RequestParam("description") String description) {
         System.out.println("SUCCESS");
 
         Long newRecordId = recordService.getLastRecordId()+1L;
@@ -321,7 +325,7 @@ public class MainController {
 
                     Record newRecord = new Record();
                     newRecord.setUserName(name);
-                    newRecord.setTitle(title);
+                    newRecord.setDescription(description);
                     newRecord.setImage(newFile.getName());
                     newRecord.setRecordId(newRecordId);
                     recordService.saveRecord(newRecord);
@@ -427,7 +431,7 @@ public class MainController {
 
         List<FullRecordDto> lastRecordsDto = new ArrayList<>();
         List<Vote> votes;
-        String title;
+        String description;
 
         Long currentRecordId = recordId;
         boolean finishFlag = false;
@@ -458,8 +462,8 @@ public class MainController {
                 }
             }
 
-            title = recordsWithSameId.get(0).getTitle();
-            lastRecordsDto.add(new FullRecordDto(user.getName(), title, user.getAvatar(), currentRecordId, recordsWithSameId, quizzesWithSameId));
+            description = recordsWithSameId.get(0).getDescription();
+            lastRecordsDto.add(new FullRecordDto(user.getName(), description, user.getAvatar(), currentRecordId, recordsWithSameId, quizzesWithSameId));
             currentRecordId--;
 
             if (lastRecords.isEmpty() && lastQuizzes.isEmpty()) {
@@ -543,9 +547,3 @@ public class MainController {
         return true;
     }
 }
-
-
-
-/*
-[{"title":"user","recordId":4,"images":[{"recordId":4,"image":"images/res_image_10.png"},{"recordId":4,"image":"images/res_image_11.png"},{"recordId":4,"image":"images/res_image_12.png"}],"quiz":{"recordId":4,"options":{"OptionDto{recordId=4, name='first'}":["user1","user2","user3"],"OptionDto{recordId=4, name='second'}":["user1","user2","user3"],"OptionDto{recordId=4, name='third'}":["user1","user2","user3"]}}},{"title":"user","recordId":3,"images":[{"recordId":3,"image":"images/res_image_7.png"},{"recordId":3,"image":"images/res_image_8.png"},{"recordId":3,"image":"images/res_image_9.png"}],"quiz":{"recordId":3,"options":{"OptionDto{recordId=3, name='first'}":["user1","user2","user3"],"OptionDto{recordId=3, name='second and third'}":["user1","user2","user3"]}}},{"title":"user","recordId":2,"images":[{"recordId":2,"image":"images/res_image_5.png"},{"recordId":2,"image":"images/res_image_6.png"}],"quiz":{"recordId":2,"options":{"OptionDto{recordId=2, name='first'}":["user1","user2","user3"],"OptionDto{recordId=2, name='second'}":["user1","user2","user3"]}}},{"title":"user","recordId":1,"images":[{"recordId":1,"image":"images/res_image_1.png"},{"recordId":1,"image":"images/res_image_2.png"},{"recordId":1,"image":"images/res_image_3.png"},{"recordId":1,"image":"images/res_image_4.png"}],"quiz":{"recordId":1,"options":{"OptionDto{recordId=1, name='first'}":["user1","user2","user3"],"OptionDto{recordId=1, name='second'}":["user1","user2","user3"],"OptionDto{recordId=1, name='nothing'}":["user1","user2","user3"]}}}]
-*/

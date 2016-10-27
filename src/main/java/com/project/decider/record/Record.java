@@ -20,7 +20,7 @@ public class Record implements Serializable{
     private String userName;
 
     @Column
-    private String title;
+    private String description;
 
     @Id
     @Column
@@ -54,11 +54,11 @@ public class Record implements Serializable{
         this.recordId = recordId;
     }
 
-    public String getTitle() {
-        return title;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

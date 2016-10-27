@@ -16,15 +16,15 @@ public class FullRecordDto{
 
     final private List<String> users = Arrays.asList("user1", "user2", "user3");
     private String username;
-    private String title;
+    private String description;
     private String avatar;
     private Long recordId;
     private List<ImageDto> images;
     private List<OptionDto> options;
 
-    public FullRecordDto(String username, String title, String avatar, Long recordId, List<Record> record, Map<Quiz, List<Vote>> quiz) {
+    public FullRecordDto(String username, String description, String avatar, Long recordId, List<Record> record, Map<Quiz, List<Vote>> quiz) {
         this.username = username;
-        this.title = title;
+        this.description = description;
         this.avatar = avatar;
         this.recordId = recordId;
 
@@ -92,11 +92,11 @@ public class FullRecordDto{
         this.avatar = avatar;
     }
 
-    public String getTitle() {
-        return title;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

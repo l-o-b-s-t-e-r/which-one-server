@@ -1,13 +1,15 @@
 package com.project.decider;
 
-import com.project.decider.record.*;
-import com.project.decider.user.User;
-import com.project.decider.user.UserService;
+import com.project.decider.model.*;
+import com.project.decider.service.RecordService;
+import com.project.decider.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by macos on 02.05.16.
@@ -33,16 +35,11 @@ public class FillDataService {
     UserService userService;
     @Autowired
     RecordService recordService;
-    @Autowired
-    QuizService quizService;
-    @Autowired
-    VoteService voteService;
 
-    @PostConstruct
-    public void fillDataBase(){
+    private void createUsers() {
         User userEntity = new User();
         userEntity.setVerified(true);
-        userEntity.setName(userName);
+        userEntity.setUsername(userName);
         userEntity.setPassword(userPassword);
         userEntity.setEmail("vla-lobster@yandex.ru");
         userEntity.setBackground("background.jpg");
@@ -50,626 +47,427 @@ public class FillDataService {
         userService.saveUser(userEntity);
         userEntity.setEmail("");
 
-        userEntity.setName(userTVBB);
+        userEntity.setUsername(userTVBB);
         userEntity.setPassword(userTVBBPassword);
         userEntity.setBackground("breaking_bad_background.jpg");
         userEntity.setAvatar("breaking_bad_avatar.jpg");
         userService.saveUser(userEntity);
 
-        userEntity.setName(userTVGT);
+        userEntity.setUsername(userTVGT);
         userEntity.setPassword(userTVFTPassword);
         userEntity.setBackground("game_of_thrones_background.jpg");
         userEntity.setAvatar("game_of_thrones_avatar.jpg");
         userService.saveUser(userEntity);
 
-        userEntity.setName(userSF);
+        userEntity.setUsername(userSF);
         userEntity.setPassword(userSFPassword);
         userEntity.setBackground("sanfran_background.jpg");
         userEntity.setAvatar("sanfran_avatar.jpg");
         userService.saveUser(userEntity);
+    }
+
+    @PostConstruct
+    public void fillDataBase() {
+        createUsers();
 
         Record record;
-        Quiz quiz;
-        Long recordId = 1L;
-        String description = "Which one?";
+        List<Image> images;
+        List<Option> options;
 
         record = new Record();
-        record.setUserName(userName);
-        record.setDescription(description);
-        record.setImage("res_image_1.png");
-        record.setRecordId(recordId);
+        record.setUsername(userName);
+        record.setDescription("Description of record");
+        record.setAvatar("ic_launcher.png");
+
         recordService.saveRecord(record);
+
+        images = Arrays.asList(
+                new Image("res_image_1.png", record),
+                new Image("res_image_2.png", record),
+                new Image("res_image_3.png", record),
+                new Image("res_image_4.png", record)
+        );
+
+        options = Arrays.asList(
+                new Option(new OptionId("first", record)),
+                new Option(new OptionId("second", record)),
+                new Option(new OptionId("nothing", record))
+        );
+
+        record.setOptions(options);
+        record.setImages(images);
+
+        recordService.saveRecord(record);
+
+        //-------------------------------//
 
         record = new Record();
-        record.setUserName(userName);
-        record.setDescription(description);
-        record.setImage("res_image_2.png");
-        record.setRecordId(recordId);
+        record.setUsername(userTVBB);
+        record.setDescription("Description of record");
+        record.setAvatar("breaking_bad_avatar.jpg");
+
+        images = Arrays.asList(
+                new Image("breaking_bad_1.jpg", record),
+                new Image("breaking_bad_2.jpg", record)
+        );
+
+        options = Arrays.asList(
+                new Option(new OptionId("first", record)),
+                new Option(new OptionId("second", record))
+        );
+
+        record.setImages(images);
+        record.setOptions(options);
         recordService.saveRecord(record);
+
+        //-------------------------------//
 
         record = new Record();
-        record.setUserName(userName);
-        record.setDescription(description);
-        record.setImage("res_image_3.png");
-        record.setRecordId(recordId);
+        record.setUsername(userTVGT);
+        record.setDescription("Description of record");
+        record.setAvatar("game_of_thrones_avatar.jpg");
+
+        images = Arrays.asList(
+                new Image("game_of_thrones_1.jpg", record),
+                new Image("game_of_thrones_2.jpg", record),
+                new Image("game_of_thrones_3.jpg", record),
+                new Image("game_of_thrones_4.jpg", record)
+        );
+
+        options = Arrays.asList(
+                new Option(new OptionId("first", record)),
+                new Option(new OptionId("second", record)),
+                new Option(new OptionId("third", record)),
+                new Option(new OptionId("all", record))
+        );
+
+        record.setImages(images);
+        record.setOptions(options);
         recordService.saveRecord(record);
+
+        //-------------------------------//
 
         record = new Record();
-        record.setUserName(userName);
-        record.setImage("res_image_4.png");
-        record.setDescription(description);
-        record.setRecordId(recordId);
+        record.setUsername(userSF);
+        record.setDescription("Description of record");
+        record.setAvatar("sanfran_avatar.jpg");
+
+        images = Arrays.asList(
+                new Image("sanfran_1.jpg", record),
+                new Image("sanfran_2.jpg", record)
+        );
+
+        options = Arrays.asList(
+                new Option(new OptionId("first", record)),
+                new Option(new OptionId("second", record))
+        );
+
+        record.setImages(images);
+        record.setOptions(options);
         recordService.saveRecord(record);
 
-        quiz = new Quiz();
-        quiz.setUserName(userName);
-        quiz.setName("first");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userName);
-        quiz.setName("second");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userName);
-        quiz.setName("nothing");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        //-------------------------
-
-        recordId++;
-        description = "Who is cooler?";
-        record = new Record();
-        record.setUserName(userName);
-        record.setDescription(description);
-        record.setImage("res_image_5.png");
-        record.setRecordId(recordId);
-        recordService.saveRecord(record);
+        //-------------------------------//
 
         record = new Record();
-        record.setUserName(userName);
-        record.setDescription(description);
-        record.setImage("res_image_6.png");
-        record.setRecordId(recordId);
+        record.setUsername(userName);
+        record.setDescription("Description of record");
+        record.setAvatar("ic_launcher.png");
+
+        images = Arrays.asList(
+                new Image("res_image_5.png", record),
+                new Image("res_image_6.png", record)
+        );
+
+        options = Arrays.asList(
+                new Option(new OptionId("first", record)),
+                new Option(new OptionId("second", record))
+        );
+
+        record.setImages(images);
+        record.setOptions(options);
         recordService.saveRecord(record);
 
-        quiz = new Quiz();
-        quiz.setUserName(userName);
-        record.setDescription(description);
-        quiz.setName("first");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userName);
-        record.setDescription(description);
-        quiz.setName("second");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        //-------------------------
-
-        recordId++;
-        description = "Just choose!";
-        record = new Record();
-        record.setUserName(userName);
-        record.setDescription(description);
-        record.setImage("res_image_7.png");
-        record.setRecordId(recordId);
-        recordService.saveRecord(record);
+        //-------------------------------//
 
         record = new Record();
-        record.setUserName(userName);
-        record.setDescription(description);
-        record.setImage("res_image_8.png");
-        record.setRecordId(recordId);
+        record.setUsername(userTVBB);
+        record.setDescription("Description of record");
+        record.setAvatar("breaking_bad_avatar.jpg");
+
+        images = Arrays.asList(
+                new Image("breaking_bad_3.jpg", record),
+                new Image("breaking_bad_4.jpg", record),
+                new Image("breaking_bad_5.jpg", record)
+        );
+
+        options = Arrays.asList(
+                new Option(new OptionId("first", record)),
+                new Option(new OptionId("second", record)),
+                new Option(new OptionId("third", record))
+        );
+
+        record.setImages(images);
+        record.setOptions(options);
         recordService.saveRecord(record);
+
+        //-------------------------------//
 
         record = new Record();
-        record.setUserName(userName);
-        record.setDescription(description);
-        record.setImage("res_image_9.png");
-        record.setRecordId(recordId);
+        record.setUsername(userTVGT);
+        record.setDescription("Description of record");
+        record.setAvatar("game_of_thrones_avatar.jpg");
+
+        images = Arrays.asList(
+                new Image("game_of_thrones_5.jpg", record),
+                new Image("game_of_thrones_6.jpg", record),
+                new Image("game_of_thrones_7.jpg", record)
+        );
+
+        options = Arrays.asList(
+                new Option(new OptionId("first", record)),
+                new Option(new OptionId("second", record)),
+                new Option(new OptionId("third", record))
+        );
+
+        record.setImages(images);
+        record.setOptions(options);
         recordService.saveRecord(record);
 
-        quiz = new Quiz();
-        quiz.setUserName(userName);
-        quiz.setName("first");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userName);
-        quiz.setName("second and third");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        //-------------------------
-
-        recordId++;
-        description = "Which one?";
-        record = new Record();
-        record.setUserName(userName);
-        record.setDescription(description);
-        record.setImage("res_image_10.png");
-        record.setRecordId(recordId);
-        recordService.saveRecord(record);
+        //-------------------------------//
 
         record = new Record();
-        record.setUserName(userName);
-        record.setDescription(description);
-        record.setImage("res_image_11.png");
-        record.setRecordId(recordId);
+        record.setUsername(userSF);
+        record.setDescription("Description of record");
+        record.setAvatar("sanfran_avatar.jpg");
+
+        images = Arrays.asList(
+                new Image("sanfran_3.jpg", record),
+                new Image("sanfran_4.jpg", record)
+        );
+
+        options = Arrays.asList(
+                new Option(new OptionId("first", record)),
+                new Option(new OptionId("second", record))
+        );
+
+        record.setImages(images);
+        record.setOptions(options);
         recordService.saveRecord(record);
+
+        //-------------------------------//
 
         record = new Record();
-        record.setUserName(userName);
-        record.setDescription(description);
-        record.setImage("res_image_12.png");
-        record.setRecordId(recordId);
+        record.setUsername(userName);
+        record.setDescription("Description of record");
+        record.setAvatar("ic_launcher.png");
+
+        images = Arrays.asList(
+                new Image("res_image_7.png", record),
+                new Image("res_image_8.png", record),
+                new Image("res_image_9.png", record)
+        );
+
+        options = Arrays.asList(
+                new Option(new OptionId("first", record)),
+                new Option(new OptionId("second or third", record))
+        );
+
+        record.setImages(images);
+        record.setOptions(options);
         recordService.saveRecord(record);
 
-        quiz = new Quiz();
-        quiz.setUserName(userName);
-        quiz.setName("first");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userName);
-        quiz.setName("second");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userName);
-        quiz.setName("third");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        //-------------------------
-
-        recordId++;
-        record = new Record();
-        record.setUserName(userTVBB);
-        record.setDescription(description);
-        record.setImage("breaking_bad_1.jpg");
-        record.setRecordId(recordId);
-        recordService.saveRecord(record);
+        //-------------------------------//
 
         record = new Record();
-        record.setUserName(userTVBB);
-        record.setDescription(description);
-        record.setImage("breaking_bad_2.jpg");
-        record.setRecordId(recordId);
+        record.setUsername(userTVBB);
+        record.setDescription("Description of record");
+        record.setAvatar("breaking_bad_avatar.jpg");
+
+        images = Arrays.asList(
+                new Image("breaking_bad_6.jpg", record)
+        );
+
+        options = Arrays.asList(
+                new Option(new OptionId("first", record)),
+                new Option(new OptionId("second", record))
+        );
+
+        record.setImages(images);
+        record.setOptions(options);
         recordService.saveRecord(record);
 
-        quiz = new Quiz();
-        quiz.setUserName(userTVBB);
-        quiz.setName("first");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userTVBB);
-        quiz.setName("second");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        //-------------------------
-
-        recordId++;
-        record = new Record();
-        record.setUserName(userTVBB);
-        record.setDescription(description);
-        record.setImage("breaking_bad_3.jpg");
-        record.setRecordId(recordId);
-        recordService.saveRecord(record);
+        //-------------------------------//
 
         record = new Record();
-        record.setUserName(userTVBB);
-        record.setDescription(description);
-        record.setImage("breaking_bad_4.jpg");
-        record.setRecordId(recordId);
+        record.setUsername(userSF);
+        record.setDescription("Description of record");
+        record.setAvatar("sanfran_avatar.jpg");
+
+        images = Arrays.asList(
+                new Image("sanfran_5.jpg", record),
+                new Image("sanfran_6.jpg", record)
+        );
+
+        options = Arrays.asList(
+                new Option(new OptionId("first", record)),
+                new Option(new OptionId("second", record))
+        );
+
+        record.setImages(images);
+        record.setOptions(options);
         recordService.saveRecord(record);
+
+        //-------------------------------//
 
         record = new Record();
-        record.setUserName(userTVBB);
-        record.setDescription(description);
-        record.setImage("breaking_bad_5.jpg");
-        record.setRecordId(recordId);
+        record.setUsername(userTVGT);
+        record.setDescription("Description of record");
+        record.setAvatar("game_of_thrones_avatar.jpg");
+
+        images = Arrays.asList(
+                new Image("game_of_thrones_8.jpg", record),
+                new Image("game_of_thrones_9.jpg", record),
+                new Image("game_of_thrones_10.jpg", record)
+        );
+
+        options = Arrays.asList(
+                new Option(new OptionId("first", record)),
+                new Option(new OptionId("second", record)),
+                new Option(new OptionId("see result", record))
+        );
+
+        record.setImages(images);
+        record.setOptions(options);
         recordService.saveRecord(record);
 
-        quiz = new Quiz();
-        quiz.setUserName(userTVBB);
-        quiz.setName("1");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userTVBB);
-        quiz.setName("2");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userTVBB);
-        quiz.setName("3");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        //-------------------------
-
-        recordId++;
-        record = new Record();
-        record.setUserName(userTVBB);
-        record.setDescription("Ouuu!");
-        record.setImage("breaking_bad_6.jpg");
-        record.setRecordId(recordId);
-        recordService.saveRecord(record);
-
-        quiz = new Quiz();
-        quiz.setUserName(userTVBB);
-        quiz.setName("+");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userTVBB);
-        quiz.setName("-");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        //-------------------------
-
-        recordId++;
-        record = new Record();
-        record.setUserName(userTVBB);
-        record.setDescription("Your choice");
-        record.setImage("breaking_bad_7.jpg");
-        record.setRecordId(recordId);
-        recordService.saveRecord(record);
+        //-------------------------------//
 
         record = new Record();
-        record.setUserName(userTVBB);
-        record.setDescription("Your choice");
-        record.setImage("breaking_bad_8.jpg");
-        record.setRecordId(recordId);
+        record.setUsername(userName);
+        record.setDescription("Description of record");
+        record.setAvatar("ic_launcher.png");
+
+        images = Arrays.asList(
+                new Image("res_image_10.png", record),
+                new Image("res_image_11.png", record),
+                new Image("res_image_12.png", record)
+        );
+
+        options = Arrays.asList(
+                new Option(new OptionId("first", record)),
+                new Option(new OptionId("second", record)),
+                new Option(new OptionId("third", record))
+        );
+
+        record.setImages(images);
+        record.setOptions(options);
         recordService.saveRecord(record);
 
-        quiz = new Quiz();
-        quiz.setUserName(userTVBB);
-        quiz.setName("yes");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userTVBB);
-        quiz.setName("no");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userTVBB);
-        quiz.setName("maybe");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userTVBB);
-        quiz.setName("see result");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        //-------------------------
-
-        recordId++;
-        description = "Who is strongest?";
-        record = new Record();
-        record.setUserName(userTVGT);
-        record.setDescription(description);
-        record.setImage("game_of_thrones_1.jpg");
-        record.setRecordId(recordId);
-        recordService.saveRecord(record);
+        //-------------------------------//
 
         record = new Record();
-        record.setUserName(userTVGT);
-        record.setDescription(description);
-        record.setImage("game_of_thrones_2.jpg");
-        record.setRecordId(recordId);
+        record.setUsername(userTVBB);
+        record.setDescription("Description of record");
+        record.setAvatar("breaking_bad_avatar.jpg");
+
+        images = Arrays.asList(
+                new Image("breaking_bad_7.jpg", record),
+                new Image("breaking_bad_8.jpg", record)
+        );
+
+        options = Arrays.asList(
+                new Option(new OptionId("first", record)),
+                new Option(new OptionId("second", record)),
+                new Option(new OptionId("third", record)),
+                new Option(new OptionId("all", record))
+        );
+
+        record.setImages(images);
+        record.setOptions(options);
         recordService.saveRecord(record);
+
+        //-------------------------------//
 
         record = new Record();
-        record.setUserName(userTVGT);
-        record.setDescription(description);
-        record.setImage("game_of_thrones_3.jpg");
-        record.setRecordId(recordId);
+        record.setUsername(userSF);
+        record.setDescription("Description of record");
+        record.setAvatar("sanfran_avatar.jpg");
+
+        images = Arrays.asList(
+                new Image("sanfran_7.jpg", record)
+        );
+
+        options = Arrays.asList(
+                new Option(new OptionId("yes", record)),
+                new Option(new OptionId("no", record))
+        );
+
+        record.setImages(images);
+        record.setOptions(options);
         recordService.saveRecord(record);
+
+        //-------------------------------//
 
         record = new Record();
-        record.setUserName(userTVGT);
-        record.setDescription(description);
-        record.setImage("game_of_thrones_4.jpg");
-        record.setRecordId(recordId);
+        record.setUsername(userSF);
+        record.setDescription("Description of record");
+        record.setAvatar("sanfran_avatar.jpg");
+
+        images = Arrays.asList(
+                new Image("sanfran_8.jpg", record)
+        );
+
+        options = Arrays.asList(
+                new Option(new OptionId("plus", record)),
+                new Option(new OptionId("minus", record))
+        );
+
+        record.setImages(images);
+        record.setOptions(options);
         recordService.saveRecord(record);
 
-        quiz = new Quiz();
-        quiz.setUserName(userTVGT);
-        quiz.setName("1");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userTVGT);
-        quiz.setName("2");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userTVGT);
-        quiz.setName("3");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userTVGT);
-        quiz.setName("4");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        //-------------------------
-
-        recordId++;
-        description = "Awesome guys?";
-        record = new Record();
-        record.setUserName(userTVGT);
-        record.setDescription(description);
-        record.setImage("game_of_thrones_5.jpg");
-        record.setRecordId(recordId);
-        recordService.saveRecord(record);
+        //-------------------------------//
 
         record = new Record();
-        record.setUserName(userTVGT);
-        record.setDescription(description);
-        record.setImage("game_of_thrones_6.jpg");
-        record.setRecordId(recordId);
+        record.setUsername(userName);
+        record.setDescription("Description of record");
+        record.setAvatar("ic_launcher.png");
+
+        images = Arrays.asList(
+                new Image("res_image_13.png", record),
+                new Image("res_image_14.png", record),
+                new Image("res_image_15.png", record)
+        );
+
+        options = Arrays.asList(
+                new Option(new OptionId("first", record)),
+                new Option(new OptionId("second", record)),
+                new Option(new OptionId("third", record))
+        );
+
+        record.setImages(images);
+        record.setOptions(options);
         recordService.saveRecord(record);
+
+        //-------------------------------//
 
         record = new Record();
-        record.setUserName(userTVGT);
-        record.setDescription(description);
-        record.setImage("game_of_thrones_7.jpg");
-        record.setRecordId(recordId);
+        record.setUsername(userSF);
+        record.setDescription("Description of record");
+        record.setAvatar("sanfran_avatar.jpg");
+
+        images = Arrays.asList(
+                new Image("sanfran_9.jpg", record),
+                new Image("sanfran_10.jpg", record)
+        );
+
+        options = Arrays.asList(
+                new Option(new OptionId("first", record)),
+                new Option(new OptionId("second", record))
+        );
+
+        record.setImages(images);
+        record.setOptions(options);
         recordService.saveRecord(record);
-
-        quiz = new Quiz();
-        quiz.setUserName(userTVGT);
-        quiz.setName("yes");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userTVGT);
-        quiz.setName("no");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userTVGT);
-        quiz.setName("+/-");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        //-------------------------
-
-        recordId++;
-        description = "Who is?";
-        record = new Record();
-        record.setUserName(userTVGT);
-        record.setDescription(description);
-        record.setImage("game_of_thrones_8.jpg");
-        record.setRecordId(recordId);
-        recordService.saveRecord(record);
-
-        record = new Record();
-        record.setUserName(userTVGT);
-        record.setDescription(description);
-        record.setImage("game_of_thrones_9.jpg");
-        record.setRecordId(recordId);
-        recordService.saveRecord(record);
-
-        record = new Record();
-        record.setUserName(userTVGT);
-        record.setDescription(description);
-        record.setImage("game_of_thrones_10.jpg");
-        record.setRecordId(recordId);
-        recordService.saveRecord(record);
-
-        quiz = new Quiz();
-        quiz.setUserName(userTVGT);
-        quiz.setName("1");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userTVGT);
-        quiz.setName("2");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userTVGT);
-        quiz.setName("1 and 3");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        //----------------------------
-
-        recordId++;
-        description = "Which photo is better?";
-        record = new Record();
-        record.setUserName(userSF);
-        record.setDescription(description);
-        record.setImage("sanfran_1.jpg");
-        record.setRecordId(recordId);
-        recordService.saveRecord(record);
-
-        record = new Record();
-        record.setUserName(userSF);
-        record.setDescription(description);
-        record.setImage("sanfran_2.jpg");
-        record.setRecordId(recordId);
-        recordService.saveRecord(record);
-
-        quiz = new Quiz();
-        quiz.setUserName(userSF);
-        quiz.setName("1");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userSF);
-        quiz.setName("2");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        //-------------------------
-
-        recordId++;
-        record = new Record();
-        record.setUserName(userSF);
-        record.setDescription(description);
-        record.setImage("sanfran_3.jpg");
-        record.setRecordId(recordId);
-        recordService.saveRecord(record);
-
-        record = new Record();
-        record.setUserName(userSF);
-        record.setDescription(description);
-        record.setImage("sanfran_4.jpg");
-        record.setRecordId(recordId);
-        recordService.saveRecord(record);
-
-        quiz = new Quiz();
-        quiz.setUserName(userSF);
-        quiz.setName("1");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userSF);
-        quiz.setName("2");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        //-------------------------
-
-        recordId++;
-        description = "Which one?";
-        record = new Record();
-        record.setUserName(userSF);
-        record.setDescription(description);
-        record.setImage("sanfran_5.jpg");
-        record.setRecordId(recordId);
-        recordService.saveRecord(record);
-
-        record = new Record();
-        record.setUserName(userSF);
-        record.setImage("sanfran_6.jpg");
-        record.setDescription(description);
-        record.setRecordId(recordId);
-        recordService.saveRecord(record);
-
-        quiz = new Quiz();
-        quiz.setUserName(userSF);
-        quiz.setName("1");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userSF);
-        quiz.setName("2");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        //-------------------------
-
-        recordId++;
-        description = "Nice?";
-        record = new Record();
-        record.setUserName(userSF);
-        record.setDescription(description);
-        record.setImage("sanfran_7.jpg");
-        record.setRecordId(recordId);
-        recordService.saveRecord(record);
-
-        quiz = new Quiz();
-        quiz.setUserName(userSF);
-        quiz.setName("+");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userSF);
-        quiz.setName("-");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        //-------------------------
-
-        recordId++;
-        description = "Good?";
-        record = new Record();
-        record.setUserName(userSF);
-        record.setDescription(description);
-        record.setImage("sanfran_8.jpg");
-        record.setRecordId(recordId);
-        recordService.saveRecord(record);
-
-        quiz = new Quiz();
-        quiz.setUserName(userSF);
-        quiz.setName("+");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userSF);
-        quiz.setName("-");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        //-------------------------
-
-        recordId++;
-        description = "Tram or Bridge?";
-        record = new Record();
-        record.setUserName(userSF);
-        record.setDescription(description);
-        record.setImage("sanfran_9.jpg");
-        record.setRecordId(recordId);
-        recordService.saveRecord(record);
-
-        record = new Record();
-        record.setUserName(userSF);
-        record.setDescription(description);
-        record.setImage("sanfran_10.jpg");
-        record.setRecordId(recordId);
-        recordService.saveRecord(record);
-
-        quiz = new Quiz();
-        quiz.setUserName(userSF);
-        quiz.setName("1");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
-
-        quiz = new Quiz();
-        quiz.setUserName(userSF);
-        quiz.setName("2");
-        quiz.setRecordId(recordId);
-        quizService.saveQuiz(quiz);
     }
 }

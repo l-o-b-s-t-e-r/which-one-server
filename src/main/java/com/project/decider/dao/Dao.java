@@ -6,7 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -60,6 +60,11 @@ public class Dao {
      */
     public <T> T save(T entity) {
         currentSession().saveOrUpdate(entity);
+        return entity;
+    }
+
+    public <T> T update(T entity) {
+        currentSession().update(entity);
         return entity;
     }
 
@@ -161,8 +166,8 @@ public class Dao {
         return entities;
     }
 
-    public <T> List<T>  getByCriterion(Class<T> entityClass, Criterion criterion, int maxResult){
-        Criteria criteria = currentSession().createCriteria(entityClass)
+    public <T> List<T> getByCriterionWithOrderBy(Class<T> entityClass, Criterion criterion, int maxResult, String orderByPropertyName) {
+        Criteria criteria = currentSession().createCriteria(entityClass).addOrder(Order.desc(orderByPropertyName))
                 .setMaxResults(maxResult)
                 .add(criterion);
 

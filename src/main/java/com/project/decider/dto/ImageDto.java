@@ -1,23 +1,20 @@
 package com.project.decider.dto;
 
+import com.project.decider.model.Image;
+
 /**
- * Created by macos on 20.06.16.
+ * Created by Lobster on 28.10.16.
  */
 public class ImageDto {
-    private Long recordId;
+
     private String image;
 
-    public ImageDto(Long recordId, String image) {
-        this.recordId = recordId;
+    public ImageDto(String image) {
         this.image = image;
     }
 
-    public Long getRecordId() {
-        return recordId;
-    }
-
-    public void setRecordId(Long recordId) {
-        this.recordId = recordId;
+    public ImageDto(Image image) {
+        this.image = image.getImageName();
     }
 
     public String getImage() {
@@ -28,4 +25,10 @@ public class ImageDto {
         this.image = image;
     }
 
+    @Override
+    public String toString() {
+        return "ImageDto{" +
+                "image='" + image + '\'' +
+                '}';
+    }
 }

@@ -1,7 +1,7 @@
-package com.project.decider.user;
+package com.project.decider.service;
 
 import com.project.decider.dao.Dao;
-import org.hibernate.Criteria;
+import com.project.decider.model.User;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -29,7 +29,7 @@ public class UserService{
     public User getUser(String userName, String userPassword){
         DetachedCriteria query = DetachedCriteria.forClass(User.class);
         query.add(Restrictions.and(
-                Restrictions.eq("name", userName),
+                Restrictions.eq("username", userName),
                 Restrictions.eq("password",userPassword))
         );
 
@@ -39,7 +39,7 @@ public class UserService{
     public User getUserByName(String userName){
         DetachedCriteria query = DetachedCriteria.forClass(User.class);
         query.add(
-                Restrictions.eq("name", userName)
+                Restrictions.eq("username", userName)
         );
 
         return dao.getBy(query);
@@ -65,7 +65,7 @@ public class UserService{
 
     public User setBackground(String userName, String background){
         DetachedCriteria query = DetachedCriteria.forClass(User.class);
-        query.add(Restrictions.eq("name", userName));
+        query.add(Restrictions.eq("username", userName));
         User user = dao.getBy(query);
         if (user==null){
             System.out.println("NULL");
@@ -77,22 +77,22 @@ public class UserService{
 
     public User setAvatar(String userName, String avatar){
         DetachedCriteria query = DetachedCriteria.forClass(User.class);
-        query.add(Restrictions.eq("name", userName));
+        query.add(Restrictions.eq("username", userName));
         User user = dao.getBy(query);
         user.setAvatar(avatar);
         return dao.save(user);
     }
 
     public List<User> getUsersByTemplate(String template, int maxCountResult){
-        return dao.getByCriterion(User.class, Restrictions.like("name", "%"+template+"%"), maxCountResult);
+        return dao.getByCriterionWithOrderBy(User.class, Restrictions.like("username", "%" + template + "%"), maxCountResult, "username");
     }
 
-    public List<User> getUsersByTemplateFromId(String template, Long userId, int maxCountResult){
+    public List<User> getUsersByTemplateFromUsername(String template, String fromUsername, int maxCountResult) {
         Criterion criterion = Restrictions.and(
-                Restrictions.like("name", "%"+template+"%"),
-                Restrictions.gt("id", userId)
+                Restrictions.like("username", "%" + template + "%"),
+                Restrictions.lt("username", fromUsername)
         );
-        return dao.getByCriterion(User.class, criterion, maxCountResult);
+        return dao.getByCriterionWithOrderBy(User.class, criterion, maxCountResult, "username");
     }
 
     public void setDao(Dao dao) {

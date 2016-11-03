@@ -1,29 +1,23 @@
 package com.project.decider.dto;
 
-import java.util.List;
+import com.project.decider.model.Option;
 
 /**
- * Created by macos on 20.06.16.
+ * Created by Lobster on 28.10.16.
  */
-
 public class OptionDto {
 
-    private Long recordId;
     private String optionName;
-    private List<String> votes;
+    private Integer voteCount;
 
-    public OptionDto(Long recordId, String optionName, List<String> votes) {
-        this.recordId = recordId;
+    public OptionDto(String optionName, Integer voteCount) {
         this.optionName = optionName;
-        this.votes = votes;
+        this.voteCount = voteCount;
     }
 
-    public Long getRecordId() {
-        return recordId;
-    }
-
-    public void setRecordId(Long recordId) {
-        this.recordId = recordId;
+    public OptionDto(Option option) {
+        this.optionName = option.getOptionId().getOptionName();
+        this.voteCount = option.getVoteCount();
     }
 
     public String getOptionName() {
@@ -34,20 +28,19 @@ public class OptionDto {
         this.optionName = optionName;
     }
 
-    public List<String> getVotes() {
-        return votes;
+    public Integer getVoteCount() {
+        return voteCount;
     }
 
-    public void setVotes(List<String> votes) {
-        this.votes = votes;
+    public void setVoteCount(Integer voteCount) {
+        this.voteCount = voteCount;
     }
 
     @Override
     public String toString() {
-        return "Option{" +
-                "recordId=" + recordId +
-                ", optionName='" + optionName + '\'' +
-                ", votes=" + votes +
+        return "OptionDto{" +
+                "optionName='" + optionName + '\'' +
+                ", voteCount=" + voteCount +
                 '}';
     }
 }

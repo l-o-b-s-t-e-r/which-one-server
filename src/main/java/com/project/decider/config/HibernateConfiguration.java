@@ -31,7 +31,7 @@ public class HibernateConfiguration {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("com.project.decider.user","com.project.decider.record");
+        sessionFactory.setPackagesToScan("com.project.decider.model");
         sessionFactory.setHibernateProperties(additionalProperties());
         return sessionFactory;
     }

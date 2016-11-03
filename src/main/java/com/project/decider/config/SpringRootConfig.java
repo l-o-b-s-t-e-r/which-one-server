@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
  */
 
 @Configuration
-@ComponentScan({"com.project.decider","com.project.decider.user","com.project.decider.record","com.project.decider.dao"})
+@ComponentScan({"com.project.decider"})
 @Import({HibernateConfiguration.class})
 public class SpringRootConfig {
 }

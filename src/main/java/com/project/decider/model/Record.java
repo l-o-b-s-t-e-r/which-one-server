@@ -12,7 +12,6 @@ import java.util.List;
  */
 
 @Entity
-@Table(name = "model")
 public class Record implements Serializable {
 
     @Id

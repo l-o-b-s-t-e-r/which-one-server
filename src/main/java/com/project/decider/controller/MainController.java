@@ -90,12 +90,12 @@ public class MainController {
 
     @RequestMapping(value = "/sign_in", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Void> signIn(@RequestParam String name, @RequestParam String password){
+    public ResponseEntity<User> signIn(@RequestParam String name, @RequestParam String password) {
         User user = userService.getUser(name, password);
         if (user != null && user.isVerified()) {
-            return new ResponseEntity<Void>(HttpStatus.OK);
+            return new ResponseEntity<User>(user, HttpStatus.OK);
         } else {
-            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<User>(user, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -230,11 +230,10 @@ public class MainController {
             Option option = optionService.getOptionByNameRecordId(optionName, recordId);
             vote = new Vote(new VoteId(user, option));
             vote = voteService.saveVote(vote);
-            optionService.increaseVoteCount(option);
+            voteService.increaseVoteCount(option.getVoteCount());
         }
 
         RecordDto recordDto = convert(vote.getVoteId().getOption().getOptionId().getRecord(), userName);
-        System.out.println(recordDto);
         return new ResponseEntity<RecordDto>(recordDto, HttpStatus.OK);
     }
 
@@ -414,7 +413,6 @@ public class MainController {
             recordDto = new RecordDto(record, vote.getVoteId().getOption().getOptionId().getOptionName());
         }
 
-        System.out.println(recordDto.toString());
         return recordDto;
     }
 

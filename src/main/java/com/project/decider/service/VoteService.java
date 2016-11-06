@@ -2,6 +2,7 @@ package com.project.decider.service;
 
 import com.project.decider.dao.Dao;
 import com.project.decider.model.Vote;
+import com.project.decider.model.VoteCount;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,15 @@ public class VoteService {
                 ));
 
         return dao.getBy(query);
+    }
+
+    public VoteCount saveVoteCount(VoteCount voteCount) {
+        return dao.save(voteCount);
+    }
+
+    public VoteCount increaseVoteCount(VoteCount voteCount) {
+        voteCount.setVoteCount(voteCount.getVoteCount() + 1);
+        return dao.save(voteCount);
     }
 
     public Vote saveVote(Vote vote) {

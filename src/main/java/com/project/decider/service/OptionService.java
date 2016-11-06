@@ -29,11 +29,6 @@ public class OptionService {
         return dao.getBy(query);
     }
 
-    public Option increaseVoteCount(Option option) {
-        option.setVoteCount(option.getVoteCount() + 1);
-        return dao.save(option);
-    }
-
     public void setDao(Dao dao) {
         this.dao = dao;
     }

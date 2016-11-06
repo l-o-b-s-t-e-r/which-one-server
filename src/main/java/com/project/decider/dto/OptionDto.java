@@ -17,7 +17,7 @@ public class OptionDto {
 
     public OptionDto(Option option) {
         this.optionName = option.getOptionId().getOptionName();
-        this.voteCount = option.getVoteCount();
+        this.voteCount = option.getVoteCount().getVoteCount();
     }
 
     public String getOptionName() {

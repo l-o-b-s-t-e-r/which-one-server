@@ -1,8 +1,5 @@
 package com.project.decider.model;
 
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,10 +13,6 @@ import java.io.Serializable;
 @Entity
 @Table(name = "user_info")
 public class User implements Serializable{
-
-    @Column(columnDefinition="serial")
-    @Generated(GenerationTime.ALWAYS)
-    private Long id;
 
     @Id
     @Column
@@ -91,14 +84,6 @@ public class User implements Serializable{
         this.email = email;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Boolean isVerified() {
         return verified;
     }
@@ -122,26 +107,18 @@ public class User implements Serializable{
 
         User user = (User) o;
 
-        if (id != null ? !id.equals(user.id) : user.id != null) return false;
-        if (username != null ? !username.equals(user.username) : user.username != null) return false;
-        if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        return email != null ? email.equals(user.email) : user.email == null;
+        return username != null ? username.equals(user.username) : user.username == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        return result;
+        return username != null ? username.hashCode() : 0;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
                 ", name='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", avatar='" + avatar + '\'' +

@@ -3,6 +3,7 @@ package com.project.decider;
 import com.project.decider.model.*;
 import com.project.decider.service.RecordService;
 import com.project.decider.service.UserService;
+import com.project.decider.service.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,8 @@ public class FillDataService {
     UserService userService;
     @Autowired
     RecordService recordService;
+    @Autowired
+    VoteService voteService;
 
     private void createUsers() {
         User userEntity = new User();
@@ -98,6 +101,9 @@ public class FillDataService {
         record.setImages(images);
 
         recordService.saveRecord(record);
+        for (Option option : options) {
+            voteService.saveVoteCount(new VoteCount(option));
+        }
 
         //-------------------------------//
 
@@ -119,6 +125,9 @@ public class FillDataService {
         record.setImages(images);
         record.setOptions(options);
         recordService.saveRecord(record);
+        for (Option option : options) {
+            voteService.saveVoteCount(new VoteCount(option));
+        }
 
         //-------------------------------//
 
@@ -144,6 +153,9 @@ public class FillDataService {
         record.setImages(images);
         record.setOptions(options);
         recordService.saveRecord(record);
+        for (Option option : options) {
+            voteService.saveVoteCount(new VoteCount(option));
+        }
 
         //-------------------------------//
 
@@ -165,6 +177,9 @@ public class FillDataService {
         record.setImages(images);
         record.setOptions(options);
         recordService.saveRecord(record);
+        for (Option option : options) {
+            voteService.saveVoteCount(new VoteCount(option));
+        }
 
         //-------------------------------//
 
@@ -186,6 +201,9 @@ public class FillDataService {
         record.setImages(images);
         record.setOptions(options);
         recordService.saveRecord(record);
+        for (Option option : options) {
+            voteService.saveVoteCount(new VoteCount(option));
+        }
 
         //-------------------------------//
 
@@ -209,6 +227,9 @@ public class FillDataService {
         record.setImages(images);
         record.setOptions(options);
         recordService.saveRecord(record);
+        for (Option option : options) {
+            voteService.saveVoteCount(new VoteCount(option));
+        }
 
         //-------------------------------//
 
@@ -232,6 +253,9 @@ public class FillDataService {
         record.setImages(images);
         record.setOptions(options);
         recordService.saveRecord(record);
+        for (Option option : options) {
+            voteService.saveVoteCount(new VoteCount(option));
+        }
 
         //-------------------------------//
 
@@ -253,6 +277,9 @@ public class FillDataService {
         record.setImages(images);
         record.setOptions(options);
         recordService.saveRecord(record);
+        for (Option option : options) {
+            voteService.saveVoteCount(new VoteCount(option));
+        }
 
         //-------------------------------//
 
@@ -275,6 +302,9 @@ public class FillDataService {
         record.setImages(images);
         record.setOptions(options);
         recordService.saveRecord(record);
+        for (Option option : options) {
+            voteService.saveVoteCount(new VoteCount(option));
+        }
 
         //-------------------------------//
 
@@ -295,6 +325,9 @@ public class FillDataService {
         record.setImages(images);
         record.setOptions(options);
         recordService.saveRecord(record);
+        for (Option option : options) {
+            voteService.saveVoteCount(new VoteCount(option));
+        }
 
         //-------------------------------//
 
@@ -316,6 +349,9 @@ public class FillDataService {
         record.setImages(images);
         record.setOptions(options);
         recordService.saveRecord(record);
+        for (Option option : options) {
+            voteService.saveVoteCount(new VoteCount(option));
+        }
 
         //-------------------------------//
 
@@ -339,6 +375,9 @@ public class FillDataService {
         record.setImages(images);
         record.setOptions(options);
         recordService.saveRecord(record);
+        for (Option option : options) {
+            voteService.saveVoteCount(new VoteCount(option));
+        }
 
         //-------------------------------//
 
@@ -362,6 +401,9 @@ public class FillDataService {
         record.setImages(images);
         record.setOptions(options);
         recordService.saveRecord(record);
+        for (Option option : options) {
+            voteService.saveVoteCount(new VoteCount(option));
+        }
 
         //-------------------------------//
 
@@ -385,6 +427,9 @@ public class FillDataService {
         record.setImages(images);
         record.setOptions(options);
         recordService.saveRecord(record);
+        for (Option option : options) {
+            voteService.saveVoteCount(new VoteCount(option));
+        }
 
         //-------------------------------//
 
@@ -405,6 +450,9 @@ public class FillDataService {
         record.setImages(images);
         record.setOptions(options);
         recordService.saveRecord(record);
+        for (Option option : options) {
+            voteService.saveVoteCount(new VoteCount(option));
+        }
 
         //-------------------------------//
 
@@ -425,6 +473,9 @@ public class FillDataService {
         record.setImages(images);
         record.setOptions(options);
         recordService.saveRecord(record);
+        for (Option option : options) {
+            voteService.saveVoteCount(new VoteCount(option));
+        }
 
         //-------------------------------//
 
@@ -448,6 +499,9 @@ public class FillDataService {
         record.setImages(images);
         record.setOptions(options);
         recordService.saveRecord(record);
+        for (Option option : options) {
+            voteService.saveVoteCount(new VoteCount(option));
+        }
 
         //-------------------------------//
 
@@ -469,5 +523,8 @@ public class FillDataService {
         record.setImages(images);
         record.setOptions(options);
         recordService.saveRecord(record);
+        for (Option option : options) {
+            voteService.saveVoteCount(new VoteCount(option));
+        }
     }
 }

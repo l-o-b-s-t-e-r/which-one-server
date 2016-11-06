@@ -1,8 +1,6 @@
 package com.project.decider.model;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -12,11 +10,10 @@ import java.io.Serializable;
 @Entity
 public class Option implements Serializable {
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "option")
+    VoteCount voteCount;
     @EmbeddedId
     private OptionId optionId;
-
-    @Column
-    private Integer voteCount = 0;
 
     public Option() {
 
@@ -26,11 +23,11 @@ public class Option implements Serializable {
         this.optionId = optionId;
     }
 
-    public Integer getVoteCount() {
+    public VoteCount getVoteCount() {
         return voteCount;
     }
 
-    public void setVoteCount(Integer voteCount) {
+    public void setVoteCount(VoteCount voteCount) {
         this.voteCount = voteCount;
     }
 

@@ -3,6 +3,7 @@ package com.project.decider.dto;
 import com.project.decider.model.Image;
 import com.project.decider.model.Option;
 import com.project.decider.model.Record;
+import com.project.decider.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +25,10 @@ public class RecordDto {
 
     }
 
-    public RecordDto(Record record, String selectedOption) {
+    public RecordDto(Record record, User user, String selectedOption) {
         this.recordId = record.getRecordId();
         this.username = record.getUsername();
-        this.avatar = record.getAvatar();
+        this.avatar = user.getAvatar();
         this.description = record.getDescription();
         this.images = new ArrayList<>();
         this.options = new ArrayList<>();

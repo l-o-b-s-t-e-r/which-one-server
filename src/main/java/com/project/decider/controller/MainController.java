@@ -249,7 +249,6 @@ public class MainController {
         Record record = new Record();
         record.setUsername(name);
         record.setDescription(description);
-        record.setAvatar(user.getAvatar());
 
         Set<Image> images = new LinkedHashSet<>();
         for (MultipartFile file: files){
@@ -280,6 +279,10 @@ public class MainController {
         record.setOptions(new ArrayList<Option>(optionsEntities));
 
         recordService.saveRecord(record);
+
+        for (Option option : optionsEntities) {
+            voteService.saveVoteCount(new VoteCount(option));
+        }
     }
 
     @RequestMapping(value = "/update_background", method = RequestMethod.POST)
@@ -404,13 +407,14 @@ public class MainController {
     }
 
     private RecordDto convert(Record record, String username) {
+        User user = userService.getUserByName(record.getUsername());
         Vote vote = voteService.getVoteByRecordIdUsername(record.getRecordId(), username);
 
         RecordDto recordDto;
         if (vote == null) {
-            recordDto = new RecordDto(record, null);
+            recordDto = new RecordDto(record, user, null);
         } else {
-            recordDto = new RecordDto(record, vote.getVoteId().getOption().getOptionId().getOptionName());
+            recordDto = new RecordDto(record, user, vote.getVoteId().getOption().getOptionId().getOptionName());
         }
 
         return recordDto;

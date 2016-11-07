@@ -25,9 +25,6 @@ public class Record implements Serializable {
     @Column
     private String description;
 
-    @Column
-    private String avatar;
-
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "record")
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Image> images;
@@ -84,14 +81,6 @@ public class Record implements Serializable {
         this.description = description;
     }
 
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -114,7 +103,6 @@ public class Record implements Serializable {
                 "recordId=" + recordId +
                 ", username='" + username + '\'' +
                 ", description='" + description + '\'' +
-                ", avatar='" + avatar + '\'' +
                 ", images=" + images +
                 ", options=" + options +
                 '}';

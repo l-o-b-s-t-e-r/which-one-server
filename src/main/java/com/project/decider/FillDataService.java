@@ -80,8 +80,6 @@ public class FillDataService {
         record = new Record();
         record.setUsername(userName);
         record.setDescription("Description of record");
-        record.setAvatar("ic_launcher.png");
-
         recordService.saveRecord(record);
 
         images = Arrays.asList(
@@ -110,7 +108,6 @@ public class FillDataService {
         record = new Record();
         record.setUsername(userTVBB);
         record.setDescription("Description of record");
-        record.setAvatar("breaking_bad_avatar.jpg");
 
         images = Arrays.asList(
                 new Image("breaking_bad_1.jpg", record),
@@ -134,7 +131,6 @@ public class FillDataService {
         record = new Record();
         record.setUsername(userTVGT);
         record.setDescription("Description of record");
-        record.setAvatar("game_of_thrones_avatar.jpg");
 
         images = Arrays.asList(
                 new Image("game_of_thrones_1.jpg", record),
@@ -162,7 +158,7 @@ public class FillDataService {
         record = new Record();
         record.setUsername(userSF);
         record.setDescription("Description of record");
-        record.setAvatar("sanfran_avatar.jpg");
+
 
         images = Arrays.asList(
                 new Image("sanfran_1.jpg", record),
@@ -186,8 +182,6 @@ public class FillDataService {
         record = new Record();
         record.setUsername(userName);
         record.setDescription("Description of record");
-        record.setAvatar("ic_launcher.png");
-
         images = Arrays.asList(
                 new Image("res_image_5.png", record),
                 new Image("res_image_6.png", record)
@@ -210,7 +204,6 @@ public class FillDataService {
         record = new Record();
         record.setUsername(userTVBB);
         record.setDescription("Description of record");
-        record.setAvatar("breaking_bad_avatar.jpg");
 
         images = Arrays.asList(
                 new Image("breaking_bad_3.jpg", record),
@@ -236,7 +229,6 @@ public class FillDataService {
         record = new Record();
         record.setUsername(userTVGT);
         record.setDescription("Description of record");
-        record.setAvatar("game_of_thrones_avatar.jpg");
 
         images = Arrays.asList(
                 new Image("game_of_thrones_5.jpg", record),
@@ -262,7 +254,7 @@ public class FillDataService {
         record = new Record();
         record.setUsername(userSF);
         record.setDescription("Description of record");
-        record.setAvatar("sanfran_avatar.jpg");
+
 
         images = Arrays.asList(
                 new Image("sanfran_3.jpg", record),
@@ -286,8 +278,6 @@ public class FillDataService {
         record = new Record();
         record.setUsername(userName);
         record.setDescription("Description of record");
-        record.setAvatar("ic_launcher.png");
-
         images = Arrays.asList(
                 new Image("res_image_7.png", record),
                 new Image("res_image_8.png", record),
@@ -311,7 +301,6 @@ public class FillDataService {
         record = new Record();
         record.setUsername(userTVBB);
         record.setDescription("Description of record");
-        record.setAvatar("breaking_bad_avatar.jpg");
 
         images = Arrays.asList(
                 new Image("breaking_bad_6.jpg", record)
@@ -334,7 +323,7 @@ public class FillDataService {
         record = new Record();
         record.setUsername(userSF);
         record.setDescription("Description of record");
-        record.setAvatar("sanfran_avatar.jpg");
+
 
         images = Arrays.asList(
                 new Image("sanfran_5.jpg", record),
@@ -358,7 +347,6 @@ public class FillDataService {
         record = new Record();
         record.setUsername(userTVGT);
         record.setDescription("Description of record");
-        record.setAvatar("game_of_thrones_avatar.jpg");
 
         images = Arrays.asList(
                 new Image("game_of_thrones_8.jpg", record),
@@ -384,8 +372,6 @@ public class FillDataService {
         record = new Record();
         record.setUsername(userName);
         record.setDescription("Description of record");
-        record.setAvatar("ic_launcher.png");
-
         images = Arrays.asList(
                 new Image("res_image_10.png", record),
                 new Image("res_image_11.png", record),
@@ -410,7 +396,6 @@ public class FillDataService {
         record = new Record();
         record.setUsername(userTVBB);
         record.setDescription("Description of record");
-        record.setAvatar("breaking_bad_avatar.jpg");
 
         images = Arrays.asList(
                 new Image("breaking_bad_7.jpg", record),
@@ -436,7 +421,7 @@ public class FillDataService {
         record = new Record();
         record.setUsername(userSF);
         record.setDescription("Description of record");
-        record.setAvatar("sanfran_avatar.jpg");
+
 
         images = Arrays.asList(
                 new Image("sanfran_7.jpg", record)
@@ -459,7 +444,7 @@ public class FillDataService {
         record = new Record();
         record.setUsername(userSF);
         record.setDescription("Description of record");
-        record.setAvatar("sanfran_avatar.jpg");
+
 
         images = Arrays.asList(
                 new Image("sanfran_8.jpg", record)
@@ -482,8 +467,6 @@ public class FillDataService {
         record = new Record();
         record.setUsername(userName);
         record.setDescription("Description of record");
-        record.setAvatar("ic_launcher.png");
-
         images = Arrays.asList(
                 new Image("res_image_13.png", record),
                 new Image("res_image_14.png", record),
@@ -508,7 +491,7 @@ public class FillDataService {
         record = new Record();
         record.setUsername(userSF);
         record.setDescription("Description of record");
-        record.setAvatar("sanfran_avatar.jpg");
+
 
         images = Arrays.asList(
                 new Image("sanfran_9.jpg", record),

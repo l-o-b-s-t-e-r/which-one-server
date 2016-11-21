@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.annotation.PostConstruct;
 import javax.mail.*;
@@ -55,6 +56,16 @@ public class MainController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showWelcomePage() {
         return "index";
+    }
+
+    @RequestMapping(value = "/verify_error", method = RequestMethod.GET)
+    public String showErrorPage() {
+        return "verify_error";
+    }
+
+    @RequestMapping(value = "/verify_success", method = RequestMethod.GET)
+    public String showSuccessPage() {
+        return "verify_success";
     }
 
     @RequestMapping(value = "/get_user", method = RequestMethod.GET)
@@ -101,15 +112,18 @@ public class MainController {
 
     @RequestMapping(value = VERIFY_EMAIL+"/{verificationCode}", method = RequestMethod.GET)
     @ResponseBody
-    public String verifyEmail(@PathVariable(value="verificationCode") Integer verificationCode){
+    public RedirectView verifyEmail(@PathVariable(value = "verificationCode") Integer verificationCode) {
+        RedirectView redirectView = new RedirectView();
         User user = userService.getUserByVerificationCode(verificationCode);
         if (user != null) {
             user.setVerified(true);
             userService.saveUser(user);
-            return "verify_success";
+            redirectView.setUrl(buildUri() + "/verify_success");
         } else {
-            return "verify_error";
+            redirectView.setUrl(buildUri() + "/verify_error");
         }
+
+        return redirectView;
     }
 
     @RequestMapping(value = "/check_name", method = RequestMethod.GET)
@@ -385,7 +399,7 @@ public class MainController {
 
     private String buildUri(){
         try {
-            URI uri = new URI(request.getScheme(), null, request.getLocalName(), request.getLocalPort(), request.getContextPath(), null, null);
+            URI uri = new URI(request.getScheme(), null, request.getServerName(), request.getLocalPort(), request.getContextPath(), null, null);
             return uri.toString();
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -398,7 +412,7 @@ public class MainController {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(SERVER_EMAIL));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
-            message.setSubject("WhichOne App");
+            message.setSubject("WhichOne");
             message.setText("Please click the link to confirm your email address: " + buildUri() + VERIFY_EMAIL + "/"+user.getVerificationCode());
 
             Transport transport = session.getTransport("smtps");

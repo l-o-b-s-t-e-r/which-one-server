@@ -1,10 +1,9 @@
 <!DOCTYPE HTML>
 <head> 
-    <title>Spring for Android</title>
+    <title>WhichOne</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <h1>"#springUrl('/images/level1.png')"</h1>
-    <img src="#springUrl('/images/res_image_1.png')" alt="level" width="50" height="50">
+   <a href="https://github.com/l-o-b-s-t-e-r/which-one-server">Go to repository!</a>
 </body>
 </html>

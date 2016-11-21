@@ -161,6 +161,14 @@ public class MainController {
         }
     }
 
+
+    @RequestMapping(value = "/get_record", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<RecordDto> getRecord(@RequestParam Long recordId, @RequestParam String targetUsername) {
+        Record record = recordService.getRecordById(recordId);
+        return new ResponseEntity<>(convert(record, targetUsername), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/get_last_records", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<RecordDto>> getLastRecords(@RequestParam String targetUsername) {
